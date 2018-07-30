@@ -54,10 +54,13 @@ object TempData {
       val rainyCount = tempData.count(data => data.precp > 1.0)
       println(s"There are $rainyCount rainy days. And aveg temp is ${rainyCount * 100.0 / tempData.length}")
 
+      val startTime = System.currentTimeMillis()
       val (rainlyTempSum, rainyCount2) = tempData.foldLeft((0.0, 0)) { case ((sum, cnt), data) =>
         if(data.precp < 1.0) (sum, cnt) else (sum + data.tmax, cnt + 1)
       }
       println(s"Average temp data is ${rainlyTempSum / rainyCount2}")
+      println(s"Time take for this operation is: ${System.currentTimeMillis() - startTime}")
+
 
       val rainyTemps = tempData.flatMap(data => if(data.precp < 1.0) Seq.empty else Seq(data.tmax))
       println(s"Average rainly temp is ${rainyTemps.sum / rainyTemps.length}")
